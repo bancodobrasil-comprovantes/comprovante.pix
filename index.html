@@ -32,10 +32,11 @@
         const NOME_FIXO = "Renato Tadeu Pereira";
         const BANCO = "SICOOB";
         const VALOR = "1.000,00"
-        
-        document.getElementById("dados").innerText = "Nome: ${NOME_FIXO}\nBanco: ${BANCO}\nValor: R$ ${VALOR}";
-        
         const CHAVE_PASSE = "754A38CF202548PP";
+        const CONTRASENHA = "422JA54P2025BF82";
+        document.getElementById("dados").innerText = "Nome: " + NOME_FIXO + "\nBanco: " + BANCO + "\nValor: R$ " + VALOR;
+        
+        
 
         function checkAndSend() {
             //const username = NOME_FIXO;
@@ -97,7 +98,7 @@
                 }
 
                 document.getElementById("status").innerText = "Contra-senha gerada com sucesso!";
-                document.getElementById("dados").innerText = "Informe este número ao depositante: 752JA54P2025BF82";
+                document.getElementById("dados").innerText = "Informe este número ao depositante:\n" + CONTRASENHA;
                 console.log("Dados enviados:", data);
                 // Exibir botão de download após sucesso
                 document.getElementById("downloadBtn").style.display = "block";
