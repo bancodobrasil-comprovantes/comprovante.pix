@@ -30,7 +30,10 @@
 
         // Nome fixo para validação
         const NOME_FIXO = "Renato Tadeu Pereira";
-        document.getElementById("dados").innerText = "Nome: Renato Tadeu Pereira\nBanco: SICOOB\nValor: 1000,00";
+        const BANCO = "SICOOB";
+        const VALOR = "1.000,00"
+        
+        document.getElementById("dados").innerText = "Nome: ${NOME_FIXO}\nBanco: ${BANCO}\nValor: R$ ${VALOR}";
         
         const CHAVE_PASSE = "754A38CF202548PP";
 
