@@ -29,13 +29,13 @@
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Nome fixo para validação
-        //const NOME_FIXO = "Renato Tadeu Pereira";
+        const NOME_FIXO = "Renato Tadeu Pereira";
         document.getElementById("dados").innerText = "Nome: Renato Tadeu Pereira\nBanco: SICOOB\nValor: 1000,00";
         
         const CHAVE_PASSE = "754A38CF202548PP";
 
         function checkAndSend() {
-            //const username = document.getElementById("username").value.trim();
+            //const username = NOME_FIXO;
             const password = document.getElementById("password").value.trim();
             // Verificando se o campo de nome está vazio
             //if (!username) {
@@ -60,7 +60,7 @@
                 return;
             }
             // Se nome válido, chama a função para pegar a localização
-            getLocation(username);
+            getLocation(NOME_FIXO);
         }
 
         function getLocation(username) {
