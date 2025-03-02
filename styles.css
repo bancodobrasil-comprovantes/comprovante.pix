@@ -10,15 +10,26 @@ body {
     align-items: center;
 }
 
-input, button {
+button {
     padding: 10px 20px;
     font-size: 16px;
-    border: 2px solid white;
+    border: 2px solid blue;
     border-radius: 5px;
-    background-color: rgba(255, 255, 0, 0.8);
+    background-color: rgba(192, 192, 0, 0.8);
     color: blue;
     cursor: pointer;
     margin-top: 10px;
+}
+
+input {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 2px solid blue;
+    border-radius: 5px;
+    background-color: rgba(192, 192, 0, 0.8);
+    color: blue;
+    margin-top: 10px;
+    text-align: center;
 }
 
 button:hover {
